@@ -1,33 +1,30 @@
 # require modules here
 
 require 'yaml'
+require 'pry'
 
-def load_library(file_path)
-  library = {"get_meaning" => {}, "get_emoticon" => {} }
-  YAML.load_file(file_path).each do |meaning, array|
-    english, japanese = array
-    library["get_emoticon"][english] = japanese
-    library["get_meaning"][japanese] = meaning
+def load_library(path)
+  # code goes here
+  get_emoticon = {}
+  get_meaning = {}
+  YAML.load_file(path).each do |k, v|
+    get_meaning[v[1]] = k
+    get_emoticon[v[0]] = v[1]
   end
-  library
+  result = {}
+  result["get_meaning"] = get_meaning
+  result["get_emoticon"] = get_emoticon
+  result
 end
 
-def get_japanese_emoticon(file_path, emoticon)
-  library = load_library(file_path)
-  result = library["get_emoticon"][emoticon]
-  if result
-    result
-  else
-    "Sorry, that emoticon was not found"
-  end
+def get_japanese_emoticon(path, emo)
+  # code goes here
+  dictionary = load_library(path)
+  dictionary['get_emoticon'][emo] ? dictionary['get_emoticon'][emo] : "Sorry, that emoticon was not found"
 end
 
-def get_english_meaning(file_path, emoticon)
-  library = load_library(file_path)
-  result = library["get_meaning"][emoticon]
-  if result
-    result
-  else
-    "Sorry, that emoticon was not found"
-  end
+def get_english_meaning(path, emo)
+  # code goes here
+  dictionary = load_library(path)
+  dictionary['get_meaning'][emo] ? dictionary['get_meaning'][emo] : "Sorry, that emoticon was not found"
 end
